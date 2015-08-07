@@ -17,8 +17,8 @@ public class Weather {
     private double windDeg;
     private String country;
 
-    private double sunrise;
-    private double sunset;
+    private String sunrise;
+    private String sunset;
     private String countryCity;
 
 
@@ -30,19 +30,19 @@ public class Weather {
         this.countryCity = countryCity;
     }
 
-    public double getSunset() {
+    public String getSunset() {
         return sunset;
     }
 
-    public void setSunset(double sunset) {
+    public void setSunset(String sunset) {
         this.sunset = sunset;
     }
 
-    public double getSunrise() {
+    public String getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(double sunrise) {
+    public void setSunrise(String sunrise) {
         this.sunrise = sunrise;
     }
 

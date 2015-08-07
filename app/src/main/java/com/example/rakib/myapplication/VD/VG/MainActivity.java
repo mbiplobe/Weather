@@ -24,13 +24,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 
 public class MainActivity extends ActionBarActivity {
 
     //TextView textView;
     private  Weather weather=null;
-    private TextView cityCountryTextView;
+    private TextView cityCountryTextView,weatherStateTextView,tempTextView,windSpeedTextView,pressureTextView,humidityTextView,sunriseTextView,sunsetTextView;
 
+    private TextView minimumTextView,maximumTextView;
     private static  final String TAG="Check";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,18 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.forcast_activity);
         weather=new Weather();
 
-       // textView= (TextView) findViewById(R.id.textView);
+        cityCountryTextView= (TextView) findViewById(R.id.cityCountryTextView);
+        weatherStateTextView= (TextView) findViewById(R.id.weatherStateTextView);
+        tempTextView= (TextView) findViewById(R.id.tempTextView);
+        windSpeedTextView= (TextView) findViewById(R.id.windSpeedTextView);
+        pressureTextView= (TextView) findViewById(R.id.pressureTextView);
+        humidityTextView= (TextView) findViewById(R.id.humidityTextView);
+        sunriseTextView= (TextView) findViewById(R.id.sunriseTextView);
+        sunsetTextView= (TextView) findViewById(R.id.sunsetTextView);
+        minimumTextView= (TextView) findViewById(R.id.minimumTextView);
+        maximumTextView= (TextView) findViewById(R.id.maximumTextView);
+
+        // textView= (TextView) findViewById(R.id.textView);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         String url = "http://api.openweathermap.org/data/2.5/weather?q=dhaka,bangladesh";
 
@@ -87,33 +106,46 @@ public class MainActivity extends ActionBarActivity {
             JSONObject jsonWeatherObject=weatherArray.getJSONObject(0);
 
 
-            weather.setWeatherState(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN_CLUODS));
-            weather.setWeatherDescrition(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN_DESCRIPTION));
+           // cityCountryTextView.setText(jsonWeatherObject.toString());
+//            weatherStateTextView.setText(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN));
+
+
+            weather.setWeatherState(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN));
+//            weather.setWeatherDescrition(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN_DESCRIPTION));
+//            weatherStateTextView.setText(weather.getWeatherState());
 
 
 
 
 
             JSONObject weatherBasicInfo=response.getJSONObject(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_OBJ);
-            weather.setTemparature(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_TEMPARATURE));
+            weather.setTemparature(FerhToCel(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_TEMPARATURE)));
+
             weather.setPressure(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_PRESSURE));
-            weather.setTemparatureMinimum(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_TEMP_MIN));
-            weather.setTemparatureMaximum(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_TEMP_MAX));
 
+            weather.setTemparatureMinimum(FerhToCel(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_TEMP_MIN)));
 
+            weather.setHumidity(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_HUMIDITY));
+            weather.setTemparatureMaximum(FerhToCel(weatherBasicInfo.getDouble(VollyWeather.BASIC_WEATHER_UPDATE_MAIN_TEMP_MAX)));
+//
+//
             JSONObject windObject=response.getJSONObject(VollyWeather.WIND_OBJ);
             weather.setWindSpeed(windObject.getDouble(VollyWeather.WIND_SPEED));
-            weather.setWindDeg(windObject.getDouble(VollyWeather.WIND_DEG));
-
-
+//            weather.setWindDeg(windObject.getDouble(VollyWeather.WIND_DEG));
+//
+//
             JSONObject  systemObject=response.getJSONObject(VollyWeather.SYS_OBJ);
             weather.setCountry(systemObject.getString(VollyWeather.SYS_COUNTRY));
-            weather.setSunrise(systemObject.getDouble(VollyWeather.SYS_SUNRISE));
-            weather.setSunset(systemObject.getDouble(VollyWeather.SYS_SUNSET));
 
+           // String date=
+
+
+            weather.setSunrise(dataTimeConversion(Long.parseLong(systemObject.getString(VollyWeather.SYS_SUNRISE))));
+            weather.setSunset(dataTimeConversion(Long.parseLong(systemObject.getString(VollyWeather.SYS_SUNSET))));
+//
             weather.setCountryCity(response.getString(VollyWeather.CITY_ID_NAME));
-            Toast.makeText(getBaseContext(),"response.getString(VollyWeather.CITY_ID_NAME",Toast.LENGTH_SHORT).show();
-            Log.d(response.getString(VollyWeather.CITY_ID_NAME),TAG);
+//            Toast.makeText(getBaseContext(),"response.getString(VollyWeather.CITY_ID_NAME",Toast.LENGTH_SHORT).show();
+//            Log.d(response.getString(VollyWeather.CITY_ID_NAME),TAG);
 
                     setValueAtUI();
 
@@ -124,15 +156,49 @@ public class MainActivity extends ActionBarActivity {
 
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(e.getMessage(),"Error");
         }
 
     }
 
     private void setValueAtUI()
     {
-        cityCountryTextView= (TextView) findViewById(R.id.cityCountryTextView);
-        cityCountryTextView.setText(weather.getCountryCity()+","+weather.getCountry());
+        weatherStateTextView.setText(weather.getWeatherState());
+        cityCountryTextView.setText(weather.getCountryCity() + "," + weather.getCountry());
+
+        String Temparatute=String.format("%.2f",weather.getTemparature());
+        tempTextView.setText(Temparatute+"\u00b0"+"C");
+        windSpeedTextView.setText(Double.toString(weather.getWindSpeed())+" m/s");
+        pressureTextView.setText(Double.toString(weather.getPressure())+" hpa");
+        humidityTextView.setText(Double.toString(weather.getHumidity())+" %");
+        sunriseTextView.setText(weather.getSunrise());
+        sunsetTextView.setText(weather.getSunset());
+        String minTemparatute=String.format("%.2f",weather.getTemparatureMinimum());
+        minimumTextView.setText(minTemparatute + "\u00b0" + "C");
+        String maxTemparatute=String.format("%.2f",weather.getTemparatureMinimum());
+        //String maxTemp=String.format("%.2f", weather.getTemparatureMaximum());
+        maximumTextView.setText(maxTemparatute.toString() + "\u00b0" + "C");
+
+    }
+
+
+    private String dataTimeConversion(long time)
+    {
+
+
+        Date date = new Date(time*1000L); // *1000 is to convert seconds to milliseconds
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:SS"); // the format of your date
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+6")); // give a timezone reference for formating (see comment at the bottom
+        String formattedDate = sdf.format(date);
+        return formattedDate;
+    }
+
+
+    private double FerhToCel(double fahrenh)
+    {
+        double celsiu =fahrenh-273.15 ;
+        return Math.abs(celsiu);
+
     }
 
 }

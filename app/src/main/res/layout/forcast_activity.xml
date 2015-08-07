@@ -1,50 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:id="@+id/cityCountryTextView"
-        android:text="Dhaka, Rajshahi"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="25dp"
-
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:src="@drawable/cloud"
-            android:id="@+id/cloudImage"
-            android:layout_height="match_parent" />
-        <TextView
             android:layout_width="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:text="36°C"
-            android:id="@+id/tempTextView"
-            android:textSize="25sp"
-            android:layout_height="wrap_content" />
+            android:src="@drawable/images"
+            android:id="@+id/cloudImage"
+            android:layout_height="126dp" />
 
 
-     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/weatherStateTextView"
-        android:text="cloud"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        android:layout_marginBottom="15dp"
-        android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:id="@+id/cityCountryTextView"
+                    android:text="Dhaka, Rajshahi"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="25dp"
+
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:text="36°C"
+                    android:id="@+id/tempTextView"
+                    android:textSize="25sp"
+                    android:layout_height="wrap_content" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/weatherStateTextView"
+                    android:text="clear"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
 
     <TableLayout
         android:layout_width="wrap_content"
@@ -63,6 +81,7 @@
                 />
             <TextView
                 android:padding="5dp"
+                android:id="@+id/windSpeedTextView"
                 android:text="Light breeze 1.96 m/s
 SouthEast (130.509 )"
                 android:background="@drawable/cell_shape"
@@ -107,6 +126,7 @@ SouthEast (130.509 )"
                 android:layout_width="140dp"
                 />
             <TextView
+                android:id="@+id/pressureTextView"
                 android:padding="5dp"
                 android:text="1015.18 hpa"
                 android:layout_marginTop="10dp"
@@ -129,6 +149,7 @@ SouthEast (130.509 )"
                 android:layout_width="140dp"
                 />
             <TextView
+                android:id="@+id/humidityTextView"
                 android:padding="5dp"
                 android:text="89 %"
                 android:layout_marginTop="10dp"
@@ -150,6 +171,7 @@ SouthEast (130.509 )"
                 android:layout_width="140dp"
                 />
             <TextView
+                android:id="@+id/sunriseTextView"
                 android:padding="5dp"
                 android:text="5:31"
                 android:layout_marginTop="10dp"
@@ -172,6 +194,7 @@ SouthEast (130.509 )"
                 android:layout_width="140dp"
                 />
             <TextView
+                android:id="@+id/sunsetTextView"
                 android:padding="5dp"
                 android:text="18:39"
                 android:layout_marginTop="10dp"
@@ -183,8 +206,53 @@ SouthEast (130.509 )"
         </TableRow>
 
 
+        <TableRow>
+            <TextView
+                android:padding="5dp"
+                android:text="Min Tem"
+                android:background="@drawable/cell_shape"
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+                android:layout_height="wrap_content"
+                android:layout_width="180dp"
+                />
+            <TextView
+                android:id="@+id/minimumTextView"
+                android:padding="5dp"
+                android:text="25°C"
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+                android:background="@drawable/cell_shape"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:padding="5dp"
+                android:text="Max Tem"
+                android:background="@drawable/cell_shape"
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+                android:layout_height="wrap_content"
+                android:layout_width="140dp"
+                />
+            <TextView
+                android:id="@+id/maximumTextView"
+                android:padding="5dp"
+                android:text="45°C"
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+                android:background="@drawable/cell_shape"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                />
+        </TableRow>
+
+
     </TableLayout>
 
-
-
 </LinearLayout>
+
+</ScrollView>
