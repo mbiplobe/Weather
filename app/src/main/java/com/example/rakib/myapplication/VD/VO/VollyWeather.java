@@ -7,6 +7,7 @@ public class VollyWeather {
 
     public static  final  String WEATHER_ARR="weather";
     public static  final  String WEATHER_MAIN="main";
+    public static  final  String WEATHER_ICON="icon";
 //    public static  final  String WEATHER_MAIN_CLUODS="Clouds";
     public static  final  String WEATHER_MAIN_DESCRIPTION="description";
 

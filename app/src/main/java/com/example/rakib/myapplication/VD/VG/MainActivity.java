@@ -1,11 +1,13 @@
 package com.example.rakib.myapplication.VD.VG;
 
 import android.app.DownloadManager;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +40,8 @@ public class MainActivity extends ActionBarActivity {
     private  Weather weather=null;
     private TextView cityCountryTextView,weatherStateTextView,tempTextView,windSpeedTextView,pressureTextView,humidityTextView,sunriseTextView,sunsetTextView;
 
-    private TextView minimumTextView,maximumTextView;
+    private TextView minimumTextView,maximumTextView,cloudnessTextView;
+    private ImageView cloudImage;
     private static  final String TAG="Check";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +59,12 @@ public class MainActivity extends ActionBarActivity {
         sunsetTextView= (TextView) findViewById(R.id.sunsetTextView);
         minimumTextView= (TextView) findViewById(R.id.minimumTextView);
         maximumTextView= (TextView) findViewById(R.id.maximumTextView);
+        cloudnessTextView= (TextView) findViewById(R.id.cloudnessTextView);
+        cloudImage= (ImageView) findViewById(R.id.cloudImage);
 
         // textView= (TextView) findViewById(R.id.textView);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=dhaka,bangladesh";
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c15646613c5b5b7a89f764b00b96c709";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -106,12 +111,14 @@ public class MainActivity extends ActionBarActivity {
             JSONObject jsonWeatherObject=weatherArray.getJSONObject(0);
 
 
+            weather.setWeatherIcon(jsonWeatherObject.getString(VollyWeather.WEATHER_ICON));
+            Log.d("Number",weather.getWeatherIcon());
            // cityCountryTextView.setText(jsonWeatherObject.toString());
 //            weatherStateTextView.setText(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN));
 
 
-            weather.setWeatherState(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN));
-//            weather.setWeatherDescrition(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN_DESCRIPTION));
+//            weather.setWeatherState(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN));
+            weather.setWeatherDescrition(jsonWeatherObject.getString(VollyWeather.WEATHER_MAIN_DESCRIPTION));
 //            weatherStateTextView.setText(weather.getWeatherState());
 
 
@@ -132,6 +139,9 @@ public class MainActivity extends ActionBarActivity {
             JSONObject windObject=response.getJSONObject(VollyWeather.WIND_OBJ);
             weather.setWindSpeed(windObject.getDouble(VollyWeather.WIND_SPEED));
 //            weather.setWindDeg(windObject.getDouble(VollyWeather.WIND_DEG));
+
+            JSONObject cloudObject=response.getJSONObject(VollyWeather.CLOUDS_OBJ);
+//            weather.setCloudness(cloudObject.getInt(VollyWeather.CLOUDS_OBJ));
 //
 //
             JSONObject  systemObject=response.getJSONObject(VollyWeather.SYS_OBJ);
@@ -163,11 +173,24 @@ public class MainActivity extends ActionBarActivity {
 
     private void setValueAtUI()
     {
-        weatherStateTextView.setText(weather.getWeatherState());
+        weatherStateTextView.setText(weather.getWeatherDescrition());
         cityCountryTextView.setText(weather.getCountryCity() + "," + weather.getCountry());
 
-        String Temparatute=String.format("%.2f",weather.getTemparature());
+
+
+
+
+
+
+//        String name=weather.getWeatherIcon();
+//        cloudImage.setImageURI(Uri.parse("drawable\\name"));
+//      cloudImage.setImageResource(R.drawable.);
+    //    Log.d("Name", weather.getWeatherIcon());
+
+        String Temparatute=String.format("%.2f", weather.getTemparature());
         tempTextView.setText(Temparatute+"\u00b0"+"C");
+
+//        cloudnessTextView.setText(CloudDescription(weather.getCloudness()));
         windSpeedTextView.setText(Double.toString(weather.getWindSpeed())+" m/s");
         pressureTextView.setText(Double.toString(weather.getPressure())+" hpa");
         humidityTextView.setText(Double.toString(weather.getHumidity())+" %");
@@ -175,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
         sunsetTextView.setText(weather.getSunset());
         String minTemparatute=String.format("%.2f",weather.getTemparatureMinimum());
         minimumTextView.setText(minTemparatute + "\u00b0" + "C");
-        String maxTemparatute=String.format("%.2f",weather.getTemparatureMinimum());
+        String maxTemparatute=String.format("%.2f",weather.getTemparatureMaximum());
         //String maxTemp=String.format("%.2f", weather.getTemparatureMaximum());
         maximumTextView.setText(maxTemparatute.toString() + "\u00b0" + "C");
 
@@ -200,5 +223,39 @@ public class MainActivity extends ActionBarActivity {
         return Math.abs(celsiu);
 
     }
+
+//    private String CloudDescription(int cloudness){
+//
+////        int oktas=cloudness/10;
+//
+//        String cloud=null;
+//
+//        if(cloudness>=0&&cloudness<10){
+//            cloud="Clear/Sunny";
+//        }
+//        else if(cloudness>=10&&cloudness<30){}
+//
+//        else if(cloudness>=10&&cloudness<30){}
+//
+//        else if(cloudness>=30&&cloudness<60){}
+//
+//        else if(cloudness>=70&&cloudness<80){}
+//
+//        else if(cloudness>=90&&cloudness<100){}
+//
+//
+//        return "mib";
+//    }
+
+//    public Uri setURI(String icon){
+//
+//        //String imageLocation="http://openweathermap.org/img/w/"+icon+".png";
+//        String imageLocation="http://openweathermap.org/img/w/50d.png";
+//
+//        Uri locationUri=Uri.parse(imageLocation);
+//
+//        Log.e("Location",locationUri.toString());
+//        return locationUri;
+//    }
 
 }

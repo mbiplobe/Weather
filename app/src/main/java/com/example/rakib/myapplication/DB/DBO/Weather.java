@@ -13,6 +13,16 @@ public class Weather {
     private double temparatureMaximum;
     private double windSpeed;
 
+    public String getWeatherIcon() {
+        return weatherIcon;
+    }
+
+    public void setWeatherIcon(String weatherIcon) {
+        this.weatherIcon = weatherIcon;
+    }
+
+    private String weatherIcon;
+
 
     private double windDeg;
     private String country;
@@ -20,6 +30,16 @@ public class Weather {
     private String sunrise;
     private String sunset;
     private String countryCity;
+
+    public int getCloudness() {
+        return cloudness;
+    }
+
+    public void setCloudness(int cloudness) {
+        this.cloudness = cloudness;
+    }
+
+    private int cloudness;
 
 
     public String getCountryCity() {
