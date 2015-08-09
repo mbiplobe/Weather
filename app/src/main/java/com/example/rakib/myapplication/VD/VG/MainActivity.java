@@ -1,6 +1,9 @@
 package com.example.rakib.myapplication.VD.VG;
 
 import android.app.DownloadManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.androidweather.mbiplobe.weatherproject.R;
@@ -26,6 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
 
         // textView= (TextView) findViewById(R.id.textView);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=c15646613c5b5b7a89f764b00b96c709";
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=rajshahi,bangladesh&APPID=c15646613c5b5b7a89f764b00b96c709";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -182,15 +189,12 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-//        String name=weather.getWeatherIcon();
-//        cloudImage.setImageURI(Uri.parse("drawable\\name"));
-//      cloudImage.setImageResource(R.drawable.);
-    //    Log.d("Name", weather.getWeatherIcon());
+        setImage();
 
         String Temparatute=String.format("%.2f", weather.getTemparature());
         tempTextView.setText(Temparatute+"\u00b0"+"C");
 
-//        cloudnessTextView.setText(CloudDescription(weather.getCloudness()));
+
         windSpeedTextView.setText(Double.toString(weather.getWindSpeed())+" m/s");
         pressureTextView.setText(Double.toString(weather.getPressure())+" hpa");
         humidityTextView.setText(Double.toString(weather.getHumidity())+" %");
@@ -257,5 +261,32 @@ public class MainActivity extends ActionBarActivity {
 //        Log.e("Location",locationUri.toString());
 //        return locationUri;
 //    }
+
+    private void setImage()
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        Log.d("Name","biplobe");
+
+
+
+        String url="http://openweathermap.org/img/w/"+weather.getWeatherIcon()+".png";
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        cloudImage.setImageBitmap(bitmap);
+                        Log.e("Yes","I got");
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        cloudImage.setImageResource(R.drawable.sun1);
+                        Log.e("mib","I Fail");
+                    }
+                });
+        queue.add(request);
+
+//        cloudImage.setImageResource(R.drawable.sun1);
+    }
 
 }
