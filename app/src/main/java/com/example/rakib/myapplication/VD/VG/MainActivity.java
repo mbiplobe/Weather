@@ -1,10 +1,8 @@
 package com.example.rakib.myapplication.VD.VG;
 
-import android.app.DownloadManager;
+
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,14 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+
 import java.util.TimeZone;
 
 
@@ -71,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
         // textView= (TextView) findViewById(R.id.textView);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=rajshahi,bangladesh&APPID=c15646613c5b5b7a89f764b00b96c709";
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=dhaka,bangladesh&APPID=c15646613c5b5b7a89f764b00b96c709";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -148,7 +143,7 @@ public class MainActivity extends ActionBarActivity {
 //            weather.setWindDeg(windObject.getDouble(VollyWeather.WIND_DEG));
 
             JSONObject cloudObject=response.getJSONObject(VollyWeather.CLOUDS_OBJ);
-//            weather.setCloudness(cloudObject.getInt(VollyWeather.CLOUDS_OBJ));
+            weather.setCloudness(cloudObject.getInt(VollyWeather.CLOUDS_ALL));
 //
 //
             JSONObject  systemObject=response.getJSONObject(VollyWeather.SYS_OBJ);
@@ -195,6 +190,8 @@ public class MainActivity extends ActionBarActivity {
         tempTextView.setText(Temparatute+"\u00b0"+"C");
 
 
+        cloudnessTextView.setText(CloudDescription(weather.getCloudness()));
+
         windSpeedTextView.setText(Double.toString(weather.getWindSpeed())+" m/s");
         pressureTextView.setText(Double.toString(weather.getPressure())+" hpa");
         humidityTextView.setText(Double.toString(weather.getHumidity())+" %");
@@ -228,28 +225,26 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-//    private String CloudDescription(int cloudness){
+    private String CloudDescription(int cloudness){
 //
 ////        int oktas=cloudness/10;
 //
-//        String cloud=null;
+        String cloud = null;
 //
-//        if(cloudness>=0&&cloudness<10){
-//            cloud="Clear/Sunny";
-//        }
-//        else if(cloudness>=10&&cloudness<30){}
+        if(cloudness>=0&&cloudness<10){
+            cloud="Clear";
+        }
+        else if(cloudness>=10&&cloudness<30){cloud="Mostly Clear";}
+
+        else if(cloudness>=30&&cloudness<69){cloud="Scattered";}
+
+        else if(cloudness>=70&&cloudness<89){cloud="Broken";}
+
+        else if(cloudness>=90&&cloudness<100){cloud="Overcast";}
+
 //
-//        else if(cloudness>=10&&cloudness<30){}
-//
-//        else if(cloudness>=30&&cloudness<60){}
-//
-//        else if(cloudness>=70&&cloudness<80){}
-//
-//        else if(cloudness>=90&&cloudness<100){}
-//
-//
-//        return "mib";
-//    }
+        return cloud;
+    }
 
 //    public Uri setURI(String icon){
 //
