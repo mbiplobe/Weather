@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
         // textView= (TextView) findViewById(R.id.textView);
         RequestQueue requestQueue= Volley.newRequestQueue(this);
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=london,UK&APPID=c15646613c5b5b7a89f764b00b96c709";
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=dhaka,bangladesh&APPID=c15646613c5b5b7a89f764b00b96c709";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -93,8 +93,8 @@ public class MainActivity extends ActionBarActivity {
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
 
-                        Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
-                        Log.d("Error", TAG);
+                        Toast.makeText(getApplicationContext(),"Please Check your Internet Connection",Toast.LENGTH_SHORT).show();
+//                        Log.d("Error", TAG);
 
                     }
                 });
