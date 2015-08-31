@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.rakib.myapplication.DialogFragment.DialogMainActivity"></activity>
         <activity android:name="com.example.rakib.myapplication.VD.VG.MainActivity"></activity>
     </application>
+
 
 </manifest>

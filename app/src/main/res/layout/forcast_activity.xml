@@ -85,7 +85,7 @@
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/wind" />
             <TextView
                 android:padding="5dp"
                 android:id="@+id/windSpeedTextView"
@@ -108,7 +108,7 @@ SouthEast (130.509 )"
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/cloud" />
             <TextView
                 android:id="@+id/cloudnessTextView"
                 android:background="@drawable/cell_shape"
@@ -132,7 +132,7 @@ SouthEast (130.509 )"
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/pressure" />
             <TextView
                 android:id="@+id/pressureTextView"
                 android:padding="5dp"
@@ -155,7 +155,7 @@ SouthEast (130.509 )"
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/humidity" />
             <TextView
                 android:id="@+id/humidityTextView"
                 android:padding="5dp"
@@ -177,7 +177,7 @@ SouthEast (130.509 )"
                 android:background="@drawable/cell_shape"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/sunrise" />
             <TextView
                 android:id="@+id/sunriseTextView"
                 android:padding="5dp"
@@ -200,7 +200,7 @@ SouthEast (130.509 )"
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/sunset" />
             <TextView
                 android:id="@+id/sunsetTextView"
                 android:padding="5dp"
@@ -223,7 +223,7 @@ SouthEast (130.509 )"
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/min" />
             <TextView
                 android:id="@+id/minimumTextView"
                 android:padding="5dp"
@@ -245,7 +245,7 @@ SouthEast (130.509 )"
                 android:textSize="25dp"
                 android:layout_height="wrap_content"
                 android:layout_width="135dp"
-                />
+                android:id="@+id/max" />
             <TextView
                 android:id="@+id/maximumTextView"
                 android:padding="5dp"

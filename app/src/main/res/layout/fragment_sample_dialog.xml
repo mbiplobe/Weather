@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="25dp"
+    android:layout_width="match_parent"
+    android:background="#995C7A"
+    android:layout_margin="10dp"
+    android:layout_gravity="center"
+    android:layout_height="fill_parent"
+    style="@style/Base.AlertDialog.AppCompat.Light"
+    android:baselineAligned="false">
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:id="@+id/mibSpinner"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp" />
+    <Spinner
+        android:layout_width="fill_parent"
+
+        android:gravity="center"
+        android:id="@+id/citySpinner"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:padding="5sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:text="Submit"
+        android:id="@+id/submitButton"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:padding="10dp"
+        android:background="#5C5C99" />
+
+</LinearLayout>

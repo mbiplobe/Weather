@@ -1,6 +1,8 @@
 package com.example.rakib.myapplication.VD.VG;
 
 
+import android.app.FragmentManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +24,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.androidweather.mbiplobe.weatherproject.R;
 import com.example.rakib.myapplication.DB.DBO.Weather;
+import com.example.rakib.myapplication.DialogFragment.Location;
+import com.example.rakib.myapplication.DialogFragment.MyDialogFragment;
+import com.example.rakib.myapplication.DialogFragment.ReceiveLocation;
+import com.example.rakib.myapplication.VD.DataFatch.VollyConnection;
 import com.example.rakib.myapplication.VD.VO.VollyWeather;
 
 
@@ -39,34 +46,170 @@ import java.util.TimeZone;
 public class MainActivity extends ActionBarActivity {
 
     //TextView textView;
+//    private  Weather nWeather=null;
     private  Weather weather=null;
     private TextView cityCountryTextView,weatherStateTextView,tempTextView,windSpeedTextView,pressureTextView,humidityTextView,sunriseTextView,sunsetTextView;
 
-    private TextView minimumTextView,maximumTextView,cloudnessTextView;
-    private ImageView cloudImage;
+    public TextView minimumTextView,maximumTextView,cloudnessTextView;
+    private TextView wind,cloud,pressure,humidity,sunrise,sunset,min,max;
+    public ImageView cloudImage;
     private static  final String TAG="Check";
+    private VollyConnection vollyConnection;
+    private Location location;
+    RequestQueue requestQueue;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forcast_activity);
-        weather=new Weather();
+
+        wind= (TextView) findViewById(R.id.wind);
+        cloud= (TextView) findViewById(R.id.cloud);
+        pressure= (TextView) findViewById(R.id.pressure);
+        humidity= (TextView) findViewById(R.id.humidity);
+        sunrise= (TextView) findViewById(R.id.sunrise);
+        sunset= (TextView) findViewById(R.id.sunset);
+        min= (TextView) findViewById(R.id.min);
+        max= (TextView) findViewById(R.id.max);
+//        wind= (TextView) findViewById(R.id.wind);
+
+
+        wind.setVisibility(View.INVISIBLE);
+        cloud.setVisibility(View.INVISIBLE);
+        pressure.setVisibility(View.INVISIBLE);
+        humidity.setVisibility(View.INVISIBLE);
+        sunrise.setVisibility(View.INVISIBLE);
+        sunset.setVisibility(View.INVISIBLE);
+        min.setVisibility(View.INVISIBLE);
+        max.setVisibility(View.INVISIBLE);
+
+
 
         cityCountryTextView= (TextView) findViewById(R.id.cityCountryTextView);
+        cityCountryTextView.setVisibility(View.INVISIBLE);
+
         weatherStateTextView= (TextView) findViewById(R.id.weatherStateTextView);
+        weatherStateTextView.setVisibility(View.INVISIBLE);
+
         tempTextView= (TextView) findViewById(R.id.tempTextView);
+        tempTextView.setVisibility(View.INVISIBLE);
+
         windSpeedTextView= (TextView) findViewById(R.id.windSpeedTextView);
+        windSpeedTextView.setVisibility(View.INVISIBLE);
+
         pressureTextView= (TextView) findViewById(R.id.pressureTextView);
+        pressureTextView.setVisibility(View.INVISIBLE);
+
         humidityTextView= (TextView) findViewById(R.id.humidityTextView);
+        humidityTextView.setVisibility(View.INVISIBLE);
+
         sunriseTextView= (TextView) findViewById(R.id.sunriseTextView);
+        sunriseTextView.setVisibility(View.INVISIBLE);
+
         sunsetTextView= (TextView) findViewById(R.id.sunsetTextView);
+        sunsetTextView.setVisibility(View.INVISIBLE);
+
         minimumTextView= (TextView) findViewById(R.id.minimumTextView);
+        minimumTextView.setVisibility(View.INVISIBLE);
+
         maximumTextView= (TextView) findViewById(R.id.maximumTextView);
+        maximumTextView.setVisibility(View.INVISIBLE);
+
         cloudnessTextView= (TextView) findViewById(R.id.cloudnessTextView);
+        cloudnessTextView.setVisibility(View.INVISIBLE);
+
         cloudImage= (ImageView) findViewById(R.id.cloudImage);
+        cloudImage.setVisibility(View.INVISIBLE);
+
+
+
+
+        //Test Start
+
+        FragmentManager fragmentManager=getFragmentManager();
+        MyDialogFragment myDialogFragment=new MyDialogFragment();
+        myDialogFragment.show(fragmentManager, "Simple Fragment");
+
+        //Test End
+
+
+
+//        vollyConnection=new VollyConnection(this);
+//        vollyConnection.apiDataFatch();
+////        nWeather=vollyConnection.dataReceiver();
+//        ReceiveLocation receiveLocation=new ReceiveLocation();
+//        Location currentLocation=receiveLocation.getLocation();
+
+
+        requestQueue= Volley.newRequestQueue(this);
 
         // textView= (TextView) findViewById(R.id.textView);
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=dhaka,bangladesh&APPID=c15646613c5b5b7a89f764b00b96c709";
+//        RequestQueue requestQueue= Volley.newRequestQueue(this);
+//        String url = "http://api.openweathermap.org/data/2.5/weather?q='"+currentLocation.getCountryCity()+"','"+currentLocation.getCountryName()+"'&APPID=c15646613c5b5b7a89f764b00b96c709";
+//
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+//                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//
+////                        InformtaionReceiver informtaionReceiver=new InformtaionReceiver(response);
+//
+//                         dataReceiver(response);
+////                        try {
+////                            JSONObject jasonObject=response.getJSONObject("sys");
+////                            textView.setText(jasonObject.toString());
+////                        } catch (JSONException e) {
+////                            e.printStackTrace();
+////                        }
+////                        textView.setText(response.toString());
+//
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // TODO Auto-generated method stub
+//
+//                        Toast.makeText(getApplicationContext(),"Please Check your Internet Connection",Toast.LENGTH_SHORT).show();
+////                        Log.d("Error", TAG);
+//
+//                    }
+//                });
+//        requestQueue.add(jsObjRequest);
+////
+//        //setObject();
+//
+//        setValueAtUI();
+//        setObject();
+
+    }
+
+//    public void setObject(Location currentLocation,Context context{
+//    public void setObject(){
+    public void setObject(Location currentLocation){
+
+
+//        cityCountryTextView= (TextView) findViewById(R.id.cityCountryTextView);
+//        weatherStateTextView= (TextView) findViewById(R.id.weatherStateTextView);
+//        tempTextView= (TextView) findViewById(R.id.tempTextView);
+//        windSpeedTextView= (TextView) findViewById(R.id.windSpeedTextView);
+//        pressureTextView= (TextView) findViewById(R.id.pressureTextView);
+//        humidityTextView= (TextView) findViewById(R.id.humidityTextView);
+//        sunriseTextView= (TextView) findViewById(R.id.sunriseTextView);
+//        sunsetTextView= (TextView) findViewById(R.id.sunsetTextView);
+//        minimumTextView= (TextView) findViewById(R.id.minimumTextView);
+//        maximumTextView= (TextView) findViewById(R.id.maximumTextView);
+//        cloudnessTextView= (TextView) findViewById(R.id.cloudnessTextView);
+//        cloudImage= (ImageView) findViewById(R.id.cloudImage);
+
+        weather=new Weather();
+
+
+        String url = "http://api.openweathermap.org/data/2.5/weather?q='"+currentLocation.getCountryCity()+"','"+currentLocation.getCountryName()+"'&APPID=c15646613c5b5b7a89f764b00b96c709";
+//        String url = "http://api.openweathermap.org/data/2.5/weather?q=rajshahi,bangladesh&APPID=c15646613c5b5b7a89f764b00b96c709";
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -76,7 +219,7 @@ public class MainActivity extends ActionBarActivity {
 
 //                        InformtaionReceiver informtaionReceiver=new InformtaionReceiver(response);
 
-                         dataReceiver(response);
+                        dataReceiver(response);
 //                        try {
 //                            JSONObject jasonObject=response.getJSONObject("sys");
 //                            textView.setText(jasonObject.toString());
@@ -99,11 +242,46 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
         requestQueue.add(jsObjRequest);
+//
+        //setObject();
+
+//        setValueAtUI();
+
 
 
     }
 
+
+
+
+
+
     public  void  dataReceiver(JSONObject response)  {
+
+
+        cityCountryTextView.setVisibility(View.VISIBLE);
+        weatherStateTextView.setVisibility(View.VISIBLE);
+        tempTextView.setVisibility(View.VISIBLE);
+        windSpeedTextView.setVisibility(View.VISIBLE);
+        pressureTextView.setVisibility(View.VISIBLE);
+        humidityTextView.setVisibility(View.VISIBLE);
+        sunriseTextView.setVisibility(View.VISIBLE);
+        sunsetTextView.setVisibility(View.VISIBLE);
+        minimumTextView.setVisibility(View.VISIBLE);
+        maximumTextView.setVisibility(View.VISIBLE);
+        cloudnessTextView.setVisibility(View.VISIBLE);
+        cloudImage.setVisibility(View.VISIBLE);
+
+
+        wind.setVisibility(View.VISIBLE);
+        cloud.setVisibility(View.VISIBLE);
+        pressure.setVisibility(View.VISIBLE);
+        humidity.setVisibility(View.VISIBLE);
+        sunrise.setVisibility(View.VISIBLE);
+        sunset.setVisibility(View.VISIBLE);
+        min.setVisibility(View.VISIBLE);
+        max.setVisibility(View.VISIBLE);
+
 
       //  Weather weather=new Weather();
         try {
@@ -175,6 +353,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setValueAtUI()
     {
+
         weatherStateTextView.setText(weather.getWeatherDescrition());
         cityCountryTextView.setText(weather.getCountryCity() + "," + weather.getCountry());
 
@@ -245,18 +424,18 @@ public class MainActivity extends ActionBarActivity {
 //
         return cloud;
     }
-
-//    public Uri setURI(String icon){
 //
-//        //String imageLocation="http://openweathermap.org/img/w/"+icon+".png";
-//        String imageLocation="http://openweathermap.org/img/w/50d.png";
+////    public Uri setURI(String icon){
+////
+////        //String imageLocation="http://openweathermap.org/img/w/"+icon+".png";
+////        String imageLocation="http://openweathermap.org/img/w/50d.png";
+////
+////        Uri locationUri=Uri.parse(imageLocation);
+////
+////        Log.e("Location",locationUri.toString());
+////        return locationUri;
+////    }
 //
-//        Uri locationUri=Uri.parse(imageLocation);
-//
-//        Log.e("Location",locationUri.toString());
-//        return locationUri;
-//    }
-
     private void setImage()
     {
         RequestQueue queue = Volley.newRequestQueue(this);
